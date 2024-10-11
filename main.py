@@ -1,5 +1,10 @@
 from pythaitts import TTS
+import re
+
+def sanitize_filename(text):
+    return re.sub(r'[^\w\s]', '', text).replace(' ', '_') + '.wav'
 
 tts = TTS()
-file = tts.tts("ยินดีที่ได้รู้จักค่ะ", filename="cat.wav") # It will get wav file path.
-wave = tts.tts("ยินดีที่ได้รู้จักค่ะ",return_type="waveform") # It will get waveform.
+text = "ไม่มี"  # Double spaces to simulate a pause
+filename = sanitize_filename(text)
+file = tts.tts(text, filename=filename)  # It will get wav file path.
