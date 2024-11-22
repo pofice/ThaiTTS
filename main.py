@@ -40,6 +40,16 @@ def convert_numbers_to_words(text):
             converted_words.append(word)
     return ' '.join(converted_words)
 
+def preprocess_text(text):
+    words = text.split()
+    processed_words = []
+    for i, word in enumerate(words):
+        if word == 'ๆ' and i > 0:
+            processed_words.append(words[i - 1])
+        else:
+            processed_words.append(word)
+    return ' '.join(processed_words)
+
 # Read each line of text from text.txt
 with open('text.txt', 'r', encoding='utf-8') as file:
     lines = file.readlines()
@@ -48,6 +58,7 @@ with open('text.txt', 'r', encoding='utf-8') as file:
 for line in lines:
     text = line.strip()
     if text:  # Ensure text is not empty
+        text = preprocess_text(text)
         text = convert_numbers_to_words(text)
         filename = os.path.join(output_dir, sanitize_filename(text))
         tts.tts(text, filename=filename)
